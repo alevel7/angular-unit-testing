@@ -1,0 +1,7 @@
+<div class="post">
+  <h3> <a [routerLink]="['detail', post?.id]">{{post?.title}}</a> </h3>
+  <div class="title">
+    {{ post?.title }}
+  </div>
+  <button (click)="removePost()">Delete</button>
+</div>

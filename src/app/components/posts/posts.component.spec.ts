@@ -2,9 +2,10 @@ import { Post } from "src/app/models/posts.model"
 import { PostsComponent } from './posts.component';
 import { PostsServiceService } from '../../services/post/posts-service.service';
 import { of } from "rxjs";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 describe('Post component', () => {
-
+  let fixture: ComponentFixture<PostsComponent>;
   let posts: Post[];
   let postsComponent: PostsComponent;
   let mockPostService: any;
@@ -28,7 +29,23 @@ describe('Post component', () => {
       },
     ];
     mockPostService = jasmine.createSpyObj(['getPosts', 'deletePost'])
-    postsComponent = new PostsComponent(mockPostService);
+
+    TestBed.configureTestingModule({
+      declarations: [ PostsComponent ],
+      providers: [
+        {
+          provide: PostsServiceService,
+          useValue: mockPostService
+        }
+      ]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    mockPostService.getPosts.and.returnValue(of(posts))
+    fixture = TestBed.createComponent(PostsComponent);
+    postsComponent = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   describe('DELETE', () => {

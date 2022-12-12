@@ -1,0 +1,16 @@
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 700px;
+}
+
+.post {
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: rgb(228, 225, 225);
+  box-shadow: 1px 1px 5px whitesmoke;
+  border-style: inset;
+  border-width: 4px;
+}
