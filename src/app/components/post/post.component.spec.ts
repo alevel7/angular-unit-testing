@@ -1,4 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { first } from 'rxjs';
 import { Post } from 'src/app/models/posts.model';
 
@@ -10,7 +12,8 @@ describe('PostComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PostComponent ]
+      declarations: [ PostComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -25,16 +28,33 @@ describe('PostComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should raise an event when delete post is clicked', () => {
-    const comp = new PostComponent();
+  it('should render the post title in the anchor element', () => {
     const post:Post = {id: 1,  title: '1 post', body: 'body 1'};
+    component.post = post;
+    fixture.detectChanges();
+    const postElements: HTMLElement = fixture.nativeElement;
+    const a = postElements.querySelector('a');
+    expect(a?.textContent).toContain(post.title)
+  });
 
-    comp.delete.pipe(first()).subscribe(
+  it('should render the post title in the anchor element using debug', () => {
+    const post:Post = {id: 1,  title: '1 post', body: 'body 1'};
+    component.post = post;
+    fixture.detectChanges();
+    const postElements = fixture.debugElement;
+    const aElement = postElements.query(By.css('a'))
+    const aNative: HTMLElement= aElement.nativeElement;
+    expect(aNative.textContent).toContain(post.title)
+  })
+
+  it('should raise an event when delete post is clicked', () => {
+    const post:Post = {id: 1,  title: '1 post', body: 'body 1'};
+    component.delete.pipe(first()).subscribe(
       selectedpost => {
         expect(selectedpost).toBe(post)
       }
     )
-    comp.post = post;
-    comp.removePost()
+    component.post = post;
+    component.removePost()
   })
 });

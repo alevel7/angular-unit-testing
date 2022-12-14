@@ -50,6 +50,10 @@ describe('Post component', () => {
 
   describe('DELETE', () => {
 
+    it('should create', () => {
+      expect(postsComponent).toBeTruthy();
+    });
+
     it('should delete the selected post from the post array', () => {
       mockPostService.deletePost.and.returnValue(of(true))
       postsComponent.posts = posts;
